@@ -34,37 +34,97 @@
     <!-- Ideally, this is gonna be rendered by backend -->
     <!-- But still not practical, so I wouldn't recommend this -->
     <div class="container p-2">
-      <h2 style="color: midnightblue">Bài tập tính lương nhân viên</h2>
+      <h2 style="color: midnightblue">Quản lý tuyển sinh</h2>
       <div class="bg-body rounded-2 bg-opacity-75 p-3">
         <h6>Gợi ý:</h6>
-        <p>Công thức: Lương = Lương 1 ngày * số ngày làm Kiến thức áp dụng:</p>
+        <details>
+          <summary>Mở rộng để xem thêm</summary>
+          <ul>
+            <li>
+              Điểm chuẩn của hội đồng các bạn tự nhập thêm. Điểm chuẩn của 3 môn
+              thường tối đa 30đ. <br />
+              Nên có thể lấy các điểm chuẩn như sau: 30,25,29
+            </li>
+            <li>
+              Ô nhập khu vực, đối tượng có thể tạo bằng input, dropdown hoặc
+              radio.<br />
+              Nếu không thuộc khu vực hoặc đối tượng trong danh sách thì điểm
+              khu vực và điểm đối tượng sẽ là 0
+            </li>
+            <li>
+              Nếu có 1 trong 3 môn bị điểm 0 thì lặp tức cho rớt không cần kiểm
+              tra tổng điểm có lớn hơn hoặc bằng điểm chuẩn hay không
+            </li>
+          </ul>
+        </details>
       </div>
       <div class="bg-light p-2 rounded-2 mt-2">
         <div class="row">
           <div class="col-md-12 col-lg-6">
             <div class="mb-3">
-              <label for="" class="form-label">Nhập lương</label>
               <input
                 type="text"
                 class="form-control"
                 name=""
-                id="txtLuong"
+                id="inputDiemChuan"
                 aria-describedby="helpId"
-                placeholder=""
+                placeholder="Điểm chuẩn"
               />
             </div>
           </div>
           <div class="col-md-12 col-lg-6">
             <div class="mb-3">
-              <label for="" class="form-label">Nhập số ngày làm</label>
+              <select class="form-control form__input" name="" id="selLocation">
+                <option value="0">Chọn khu vực</option>
+                <option value="2">A</option>
+                <option value="1">B</option>
+                <option value="0.5">C</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="mb-3">
+              <select class="form-control form__input" name="" id="selUser">
+                <option value="0">Chọn đối tượng</option>
+                <option value="2.5">1</option>
+                <option value="1.5">2</option>
+                <option value="1">3</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="mb-3">
               <input
-                type="number"
+                type="text"
                 class="form-control"
                 name=""
-                id="txtNgay"
+                id="inputDiem1"
                 aria-describedby="helpId"
-                placeholder=""
-                min="0"
+                placeholder="Điểm môn thứ 1"
+              />
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                name=""
+                id="inputDiem2"
+                aria-describedby="helpId"
+                placeholder="Điểm môn thứ 2"
+              />
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                name=""
+                id="inputDiem3"
+                aria-describedby="helpId"
+                placeholder="Điểm môn thứ 3"
               />
             </div>
           </div>
@@ -79,7 +139,6 @@
       ></div>
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-          
           <li class="page-item active" aria-current="page">
             <a class="page-link" href="Bai1.html">1</a>
           </li>
@@ -114,17 +173,35 @@
       document
         .getElementById("btnKetQua")
         .addEventListener("click", function () {
-          var result =
-            document.getElementById("txtNgay").value *
-            document.getElementById("txtLuong").value;
-
-          document.getElementById(
-            "result"
-          ).innerHTML = `${result.toLocaleString("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          })}`;
+          var input1 = Number(document.getElementById("inputDiemChuan").value),
+            input2 = Number(document.getElementById("selLocation").value),
+            input3 = Number(document.getElementById("selUser").value),
+            input4 = Number(document.getElementById("inputDiem1").value),
+            input5 = Number(document.getElementById("inputDiem2").value),
+            input6 = Number(document.getElementById("inputDiem3").value),
+            m = !0;
+          console.log("helllllllllllllllllllllllll", m);
+          if (
+            (m &=
+              checkScore(input4) && checkScore(input5) && checkScore(input6))
+          ) {
+            console.log("trueeeeeeeeeeeeeeeeeee", m);
+            console.log(m);
+            var scoreResult = input4 + input5 + input6 + (input2 + input3);
+            console.log(scoreResult);
+            document.getElementById("result").innerHTML =
+              scoreResult >= input1
+                ? "Bạn đã đậu. Tổng điểm: " + input1
+                : "Bạn đã rớt. Tổng điểm: " + scoreResult;
+          } else {
+            console.log("falseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            document.getElementById("result").innerHTML =
+              "Bạn đã rớt. Do có điểm nhỏ hơn hoặc bằng 0";
+          }
         });
+      function checkScore(score) {
+        return !(score <= 0);
+      }
     </script>
   </body>
 </html>
